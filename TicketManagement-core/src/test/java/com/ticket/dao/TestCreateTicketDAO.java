@@ -12,7 +12,7 @@ public class TestCreateTicketDAO {
 		User user=new User();
 		user.setId(3);
 		int userId=user.getId();
-		user.setEmailId("sgbfsf");
+		user.setEmailId("rasik@gmail.com");
 		user.setPassword("abc123");
 		
 		Issue issue=new Issue();
@@ -23,9 +23,10 @@ public class TestCreateTicketDAO {
 		String description="I could not login on my computer";
 		String department="HR";
 		String priority="High";
-		createTicket.createTicket(user.getEmailId(),user.getPassword(), subject, description, department, priority);
+		//createTicket.createTicket(user.getEmailId(),user.getPassword(), subject, description, department, priority);
 		//createTicket.updateTicket(user.getEmailId(),user.getPassword(), issueId, description);
 		//createTicket.updateClose(user.getEmailId(),user.getPassword(),issueId);
+		createTicket.findUserDetails(user.getEmailId(),user.getPassword());
 		
 /*		IssueDAO issueDao=new IssueDAO();
 		

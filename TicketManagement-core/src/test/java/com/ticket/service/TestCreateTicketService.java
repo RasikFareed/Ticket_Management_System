@@ -28,8 +28,8 @@ public class TestCreateTicketService {
 		String priority="High";
 		
 		cts.createTicket(user.getEmailId(),user.getPassword(), subject, description, department, priority);
-		cts.updateTicket(user.getEmailId(),user.getPassword(), issueId, description);
-		cts.updateClose(user.getEmailId(),user.getPassword(),issueId);
+		//cts.updateTicket(user.getEmailId(),user.getPassword(), issueId, description);
+		//cts.updateClose(user.getEmailId(),user.getPassword(),issueId);
 
 	}
 

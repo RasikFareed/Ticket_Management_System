@@ -30,4 +30,11 @@ public class CreateTicketValidator {
 		validator.isInvalid(issueId, "ISSUE_ID");
 		
 	}
+	
+	public void findUserDetails(String emailId,String password) throws ValidatorException{
+		
+		validator.isInvalid(emailId, "EMAIL");
+		validator.isInvalid(password, "PASSWORD");
+		
+	}
 }

@@ -1,5 +1,8 @@
 package com.ticket.dao;
 
+import java.util.Iterator;
+import java.util.List;
+
 import com.ticket.exception.PersistenceException;
 import com.ticket.model.Department;
 import com.ticket.model.Issue;
@@ -90,6 +93,31 @@ public class CreateTicketDAO {
 		else{
 			System.out.println("Incorrect user name or password");
 		}
+	}
+	
+	public void findUserDetails(String emailId,String password) throws PersistenceException{
+		LoginDAO loginDao=new LoginDAO();
+		if(loginDao.login(emailId, password)){
+			
+		User user=new User();
+		UserDAO userDao=new UserDAO();
+			
+		int userId=userDao.findUserId(emailId).getId();
+		user.setId(userId);
+		issueDao.findUserDetails(user.getId());
+		List<Issue> list = issueDao.findUserDetails(userId);
+		Iterator<Issue> i = list.iterator();
+		while (i.hasNext()) {
+			Issue issues = (Issue) i.next();
+			System.out.println(issues.getId()+ "\t"+issues.getUserId().getId()+"\t" +issues.getSubject() + "\t"
+					+ issues.getDescription() + "\t"+ issues.getStatus());
+		}
+		}
+		else
+		{
+			System.out.println("Incorrect user name or password");
+		}
+		
 	}
 
 }

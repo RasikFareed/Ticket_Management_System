@@ -62,9 +62,23 @@ public List<Issue> findAll() {
 }
 
 public List<Issue> findUserDetails(int userId) {
-	String sql = "SELECT ID,USER_ID,DEPARTMENT_ID,SUBJECT,DESCRIPTION,DATE_REPORTED,DATE_RESOLVED,STATUS,PRIORITY FROM ISSUES WHERE USER_ID=?";
+	String sql = "SELECT ID,USER_ID,SUBJECT,DESCRIPTION,STATUS,PRIORITY FROM ISSUES WHERE USER_ID=?";
 	Object[] params = { userId };
-	return jdbcTemplate.query(sql,params, (rs, rowNo) -> convert(rs));
+	return jdbcTemplate.query(sql,params, (rs, rowNo) ->{
+		Issue issue=new Issue();
+		issue.setId(rs.getInt("ID"));
+		
+		User user=new User();
+		user.setId(rs.getInt("USER_ID"));
+		issue.setUserId(user);
+		
+		issue.setSubject(rs.getString("SUBJECT"));
+		issue.setDescription(rs.getString("DESCRIPTION"));
+		issue.setStatus(rs.getString("STATUS"));
+		issue.setPriority(rs.getString("PRIORITY"));
+		return issue;
+	
+	});
 
 }
 

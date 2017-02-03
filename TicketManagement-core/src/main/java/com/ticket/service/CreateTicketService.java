@@ -29,7 +29,7 @@ public void updateTicket(String emailId,String password,int issueId,String updat
 			createTicketValidator.updateTicket(emailId, password, issueId, updateDescription);
 			createTicketDao.updateTicket(emailId, password, issueId, updateDescription);
 		} catch (ValidatorException e) {
-			throw new ServiceException("Cannot Create Ticket",e);
+			throw new ServiceException("Cannot Update Ticket",e);
 			
 		}
 	}
@@ -40,9 +40,19 @@ public void updateTicket(String emailId,String password,int issueId,String updat
 			createTicketValidator.updateClose(emailId, password,issueId);
 			createTicketDao.updateClose(emailId, password,issueId);
 		} catch (ValidatorException e) {
-			throw new ServiceException("Cannot Create Ticket",e);
+			throw new ServiceException("Cannot Close Ticket",e);
 			
 		}
 	}
 
+	public void findUserDetails(String emailId,String password) throws ServiceException, PersistenceException {
+		
+		try {
+			createTicketValidator.findUserDetails(emailId, password);
+			createTicketDao.findUserDetails(emailId, password);
+		} catch (ValidatorException e) {
+			throw new ServiceException("Cannot View Ticket",e);
+			
+		}
+	}
 }
