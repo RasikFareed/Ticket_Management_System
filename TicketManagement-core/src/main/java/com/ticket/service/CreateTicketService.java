@@ -11,6 +11,16 @@ public class CreateTicketService {
 	CreateTicketValidator createTicketValidator=new CreateTicketValidator();
 	CreateTicketDAO createTicketDao=new CreateTicketDAO();
 	
+	public void registration(String name,String emailId,String password) throws ServiceException, PersistenceException{
+		
+		try {
+			createTicketValidator.registration(name, emailId, password);
+			createTicketDao.registration(name, emailId, password);
+		} catch (ValidatorException e) {
+			throw new ServiceException("Registration Failed",e);
+		}
+	}
+	
 	public void createTicket(String emailId,String password,String subject,String description,String department,String priority) throws ServiceException, PersistenceException {
 		
 		try {

@@ -6,6 +6,11 @@ import com.ticket.util.Validator;
 public class CreateTicketValidator {
 
 	Validator validator=new Validator();
+	public void registration(String name,String emailId,String password) throws ValidatorException{
+		validator.isInvalid(name, "NAME");
+		validator.isInvalid(emailId, "EMAIL_ID");
+		validator.isInvalid(password, "PASSWORD");
+	}
 	public void createTicket(String emailId,String password,String subject,String description,String department,String priority) throws ValidatorException{
 	
 		validator.isInvalid(emailId, "EMAIL");

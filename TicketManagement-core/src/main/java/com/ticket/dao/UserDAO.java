@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -15,11 +16,16 @@ public class UserDAO implements Dao<User> {
 
 	private JdbcTemplate jdbcTemplate=ConnectionUtil.getJdbcTemplate();
 	@Override
-	public void save(User u) {
+	public void save(User u) throws PersistenceException {
+		try{
 	String sql = "INSERT INTO USERS(NAME,EMAIL_ID,PASSWORD)VALUES(?,?,?)";
 	Object[] params = {u.getName(),u.getEmailId(),u.getPassword()};
 	int rows = jdbcTemplate.update(sql, params);
 	System.out.println(rows);
+		}
+		catch(DuplicateKeyException e){
+			throw new PersistenceException("EMAIL_ID already registered",e);
+		}
 }
 	@Override
 public void update(User u) {

@@ -12,6 +12,16 @@ public class CreateTicketDAO {
 	Issue issue=new Issue();
 	IssueDAO issueDao=new IssueDAO();
 	
+	public void registration(String name,String emailId,String password) throws PersistenceException{
+		User user=new User();
+		UserDAO userDao=new UserDAO();
+		
+		user.setName(name);
+		user.setEmailId(emailId);
+		user.setPassword(password);
+		
+		userDao.save(user);
+	}
 	public void createTicket(String emailId,String password,String subject,String description,String department,String priority) throws PersistenceException{
 
 	LoginDAO loginDao=new LoginDAO();
@@ -105,6 +115,7 @@ public class CreateTicketDAO {
 		int userId=userDao.findUserId(emailId).getId();
 		user.setId(userId);
 		issueDao.findUserDetails(user.getId());
+		
 		List<Issue> list = issueDao.findUserDetails(userId);
 		Iterator<Issue> i = list.iterator();
 		while (i.hasNext()) {
