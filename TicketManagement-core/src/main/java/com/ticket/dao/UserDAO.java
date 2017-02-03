@@ -4,8 +4,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import com.ticket.exception.PersistenceException;
 import com.ticket.model.User;
 import com.ticket.util.ConnectionUtil;
 
@@ -51,12 +53,28 @@ public User findOne(int id) {
 
 }
 
-public User findOne(String emailId) {
+public User findOne(String emailId) throws PersistenceException {
+	try{
 	String sql = "SELECT PASSWORD FROM USERS WHERE EMAIL_ID = ?";
 	Object[] params = { emailId };
 	return jdbcTemplate.queryForObject(sql, params, (rs, rowNo) -> {
 		User user=new User();
 		user.setPassword(rs.getString("PASSWORD"));
+		return user;
+	
+	});
+	}
+	catch(EmptyResultDataAccessException e){
+		throw new PersistenceException("Wrong Email id",e);
+	}
+}
+
+public User findUserId(String emailId) {
+	String sql = "SELECT ID FROM USERS WHERE EMAIL_ID = ?";
+	Object[] params = { emailId };
+	return jdbcTemplate.queryForObject(sql, params, (rs, rowNo) -> {
+		User user=new User();
+		user.setId(rs.getInt("ID"));
 		return user;
 	
 	});

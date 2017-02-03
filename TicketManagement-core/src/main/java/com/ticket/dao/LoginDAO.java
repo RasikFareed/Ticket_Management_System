@@ -1,15 +1,11 @@
 package com.ticket.dao;
 
-
-import com.ticket.model.User;
-
+import com.ticket.exception.PersistenceException;
 
 public class LoginDAO {
-	
 
-	User user=new User();
 	UserDAO userDao=new UserDAO();
-	public boolean login(String emailId,String password){
+	public boolean login(String emailId,String password) throws PersistenceException{
 		String s =userDao.findOne(emailId).getPassword();
 		if(s.equals(password))
 			return true;

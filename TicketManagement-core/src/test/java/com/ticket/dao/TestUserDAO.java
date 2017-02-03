@@ -11,9 +11,9 @@ public class TestUserDAO {
 		// TODO Auto-generated method stub
 
 		User user=new User();
-		/*
+		
 		user.setName("Rasik");
-		user.setEmailId("rasik@gmail.com");
+		/*user.setEmailId("rasik@gmail.com");
 		user.setPassword("abc123");*/
 		
 		
@@ -22,7 +22,7 @@ public class TestUserDAO {
 		//userDao.save(user);
 		//userDao.update(user);
 		
-	List<User> list = userDao.findAll();
+	/*List<User> list = userDao.findAll();
 		Iterator<User> i = list.iterator();
 		while (i.hasNext()) {
 			User users = (User) i.next();
@@ -31,7 +31,7 @@ public class TestUserDAO {
 		}
 		
 		user = userDao.findOne("rasik@gmail.com");
-		System.out.println(user.getPassword());
+		System.out.println(user.getPassword());*/
 	}
 
 }

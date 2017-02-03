@@ -1,5 +1,6 @@
 package com.ticket.dao;
 
+import com.ticket.exception.PersistenceException;
 import com.ticket.model.Department;
 import com.ticket.model.Issue;
 import com.ticket.model.User;
@@ -8,9 +9,15 @@ public class CreateTicketDAO {
 	Issue issue=new Issue();
 	IssueDAO issueDao=new IssueDAO();
 	
-	public void createTicket(int userId,String subject,String description,String department,String priority){
+	public void createTicket(String emailId,String password,String subject,String description,String department,String priority) throws PersistenceException{
 
+	LoginDAO loginDao=new LoginDAO();
+	if(loginDao.login(emailId, password)){
+			
 		User user=new User();
+		UserDAO userDao=new UserDAO();
+		
+		int userId=userDao.findUserId(emailId).getId();
 		user.setId(userId);
 		issue.setUserId(user);
 		
@@ -24,17 +31,31 @@ public class CreateTicketDAO {
 		issue.setDepartmentId(departments);
 		issue.setPriority(priority);
 		issueDao.save(issue);
+		}
+	else
+	{
+		System.out.println("Incorrect user name or password");
 	}
+}
 	
-	public void updateTicket(int userId,int issueId,String updateDescription){
-		if("Closed".equals(issueDao.findStatus(userId, issueId).getStatus()) || "CLOSED".equals(issueDao.findStatus(userId, issueId).getStatus()) ){
+	public void updateTicket(String emailId,String password,int issueId,String updateDescription) throws PersistenceException{
+		
+		LoginDAO loginDao=new LoginDAO();
+		if(loginDao.login(emailId, password)){
+			User user=new User();
+			UserDAO userDao=new UserDAO();
+			
+			int userId=userDao.findUserId(emailId).getId();
+			user.setId(userId);
+			issue.setUserId(user);
+			
+			if("Closed".equals(issueDao.findStatus(userId, issueId).getStatus()) || "CLOSED".equals(issueDao.findStatus(userId, issueId).getStatus()) ){
 		
 			System.out.println("You cant update now!");
-		}
+			}
 		else
 		{
-		User user=new User();
-		user.setId(userId);
+	
 		issue.setUserId(user);
 		
 		issue.setId(issueId);
@@ -43,18 +64,32 @@ public class CreateTicketDAO {
 		
 		issueDao.updateDescription(issue);
 		}
-	
 	}
+		else
+		{
+			System.out.println("Incorrect user name or password");
+		}
+}
 	
-	public void updateClose(int userId,int issueId){
+	public void updateClose(String emailId,String password,int issueId) throws PersistenceException{
+		
+		LoginDAO loginDao=new LoginDAO();
+		if(loginDao.login(emailId, password)){
+			
 		User user=new User();
+		UserDAO userDao=new UserDAO();
+			
+		int userId=userDao.findUserId(emailId).getId();
 		user.setId(userId);
 		issue.setUserId(user);
 		
 		issue.setId(issueId);
 		
 		issueDao.updateClose(issue);
-		
+		}
+		else{
+			System.out.println("Incorrect user name or password");
+		}
 	}
 
 }
