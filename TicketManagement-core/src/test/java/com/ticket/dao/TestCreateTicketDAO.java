@@ -43,24 +43,26 @@ public class TestCreateTicketDAO {
 		solution.setResolutionDescription("Check you internet connection");
 		//createTicket.assignEmployee(employee.getEmailId(), employee.getPassword(), issueId, employee.getId());
 		//createTicket.ticketSolution(employee.getEmailId(), employee.getPassword(), issueId, solution.getResolutionDescription());
-/*IssueDAO issueDao=new IssueDAO();
+		//createTicket.findEmployeeTickets(employee.getEmailId(), employee.getPassword());
+		//createTicket.deleteTickets(employee.getEmailId(), employee.getPassword(), issueId);
+		//IssueDAO issueDao=new IssueDAO();
 		//issueDao.findempTickets(employee);
-		List<Issue> list = issueDao.findempTickets(2);
+		/*List<Issue> list = issueDao.findempTickets(1);
 		Iterator<Issue> i = list.iterator();
 		while (i.hasNext()) {
 			Issue issues = (Issue) i.next();
 			System.out.println(issues.getId()+ "\t" +issues.getSubject() + "\t"
 					+ issues.getDescription() +"\t"+issues.getStatus());
-		}*/
-
-		//issueDao.findempTickets(employee);
-		List<Solution> list = solDao.findAll();
+		}
+*/
+	//	issueDao.findempTickets(employee);
+		
+	/*	List<Solution> list = solDao.findempTickets();
 		Iterator<Solution> i = list.iterator();
 		while (i.hasNext()) {
 			Solution sol = (Solution) i.next();
-			System.out.println(sol.getId()+ "\t" +sol.getIssueId().getId() + "\t"
-					+ sol.getEmployeeId().getId() +"\t"+sol.getResolutionDescription());
-		}
+			System.out.println(list);
+		}*/
 	}
 
 }

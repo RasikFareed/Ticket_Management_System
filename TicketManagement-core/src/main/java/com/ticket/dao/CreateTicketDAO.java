@@ -215,8 +215,62 @@ public class CreateTicketDAO {
 
 	}
 
-	public void deleteTickets(String emailId, String password, int issueId) {
+	public void deleteTickets(String emailId, String password, int issueId) throws PersistenceException {
+		LoginDAO loginDao = new LoginDAO();
+		try {
+			if (loginDao.employeeLogin(emailId, password)) {
+				Employee employee=new Employee();
+				EmployeeDAO employeeDao=new EmployeeDAO();
+				employee.setEmailId(emailId);
+				employee.setPassword(password);
+				int employeeRoleId=employeeDao.findEmployeeRoleId(emailId, password).getRoleId().getId();
+				
+				Role role=new Role();
+				role.setName("Admin");
+				RoleDAO roleDao=new RoleDAO();
+				int adminRoleId=roleDao.findRoleId(role).getId();
 
+				if(employeeRoleId==adminRoleId){
+					SolutionDAO solutionDao=new SolutionDAO();
+					solutionDao.delete(issueId);
+					issueDao.delete(issueId);
+				}
+				else{
+					System.out.println("You dont have enough rights to delete");
+				}
+				
+				
+			}
+
+	}catch (PersistenceException e) {
+		throw new PersistenceException("Login Failed", e);
 	}
 
+}
+	public void findEmployeeTickets(String emailId, String password) throws PersistenceException{
+		LoginDAO loginDao = new LoginDAO();
+		try {
+			if (loginDao.employeeLogin(emailId, password)) {
+				Employee employee=new Employee();
+				EmployeeDAO employeeDao=new EmployeeDAO();
+				employee.setEmailId(emailId);
+				employee.setPassword(password);
+				int employeeId=employeeDao.findOne(emailId, password).getId();
+				
+				issueDao.findempTickets(employeeId);
+				List<Issue> list = issueDao.findempTickets(employeeId);
+				Iterator<Issue> i = list.iterator();
+				while (i.hasNext()) {
+					Issue issues = (Issue) i.next();
+					System.out.println(issues.getId()+ "\t" +issues.getSubject() + "\t"
+							+ issues.getDescription() +"\t"+issues.getStatus());
+				}
+				
+			}
+		
+	}catch (PersistenceException e) {
+		throw new PersistenceException("Login Failed", e);
+	}
+		
+}
 }

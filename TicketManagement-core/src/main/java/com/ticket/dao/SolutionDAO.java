@@ -46,9 +46,9 @@ public void update(Solution solution) {
 	}
 	
 	@Override
-public void delete(int id) {
-	String sql = "DELETE FROM SOLUTIONS WHERE ID=?";
-	Object params = id;
+public void delete(int issueId) {
+	String sql = "DELETE FROM SOLUTIONS WHERE ISSUE_ID=?";
+	Object params = issueId;
 	int rows = jdbcTemplate.update(sql, params);
 	System.out.println(rows);
 
@@ -85,28 +85,5 @@ private Solution convert(ResultSet rs) throws SQLException {
 	
 	return solution;
 }
-
-
-public List<Solution> findempTickets() {
-	String sql = " SELECT SUBJECT,DESCRIPTION,STATUS,PRIORITY FROM ISSUES , SOLUTIONS WHERE ISSUES.ID=SOLUTIONS.ISSUE_ID AND  SOLUTIONS.EMPLOYEE_ID=2";
-	return jdbcTemplate.query(sql,(rs, rowNo) ->{
-		Issue issue = new Issue();
-		Solution solution = new Solution();
-
-		issue.setSubject(rs.getString("SUBJECT"));
-		issue.setDescription(rs.getString("DESCRIPTION"));
-		issue.setStatus(rs.getString("STATUS"));
-		issue.setPriority(rs.getString("PRIORITY"));
-		
-		Employee employee=new Employee();
-		employee.setId(rs.getInt("EMPLOYEE_ID"));
-		solution.setEmployeeId(employee);
-		
-		return solution;
-
-	});
-
-}
-
 
 }

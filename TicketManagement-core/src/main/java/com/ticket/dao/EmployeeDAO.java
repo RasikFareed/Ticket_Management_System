@@ -96,11 +96,21 @@ public class EmployeeDAO implements Dao<Employee> {
 			department.setId(rs.getInt("DEPARTMENT_ID"));
 			employee.setDepartmentId(department);
 			return employee;
-		
 		});
-
-
 	}
+	
+	public Employee findEmployeeRoleId(String emailId,String password) {
+		String sql = "SELECT ROLE_ID FROM EMPLOYEES WHERE EMAIL_ID = ? AND PASSWORD=? AND ACTIVE=1";
+		Object[] params = {emailId,password};
+		return jdbcTemplate.queryForObject(sql, params, (rs, rowNo) -> {
+			Employee employee=new Employee();
+			Role role=new Role();
+			role.setId(rs.getInt("ROLE_ID"));
+			employee.setRoleId(role);
+			return employee;
+		});
+	}
+	
 	public Employee findDepartmentId(int employeeId) {
 		String sql = "SELECT DEPARTMENT_ID FROM EMPLOYEES WHERE ID = ? AND ACTIVE=1";
 		Object[] params = {employeeId};

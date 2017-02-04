@@ -5,9 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import com.ticket.model.Department;
-import com.ticket.model.Employee;
 import com.ticket.model.Issue;
-import com.ticket.model.Solution;
 import com.ticket.model.User;
 import com.ticket.util.ConnectionUtil;
 
@@ -56,14 +54,15 @@ public class IssueDAO implements Dao<Issue> {
 		System.out.println(rows);
 
 	}
-	
+
 	public void updateSolutionStatus(Issue issue) {
 		String sql = "UPDATE ISSUES SET STATUS='Resolved',DATE_RESOLVED=NOW() WHERE ID=?";
-		Object[] params = {issue.getId() };
+		Object[] params = { issue.getId() };
 		int rows = jdbcTemplate.update(sql, params);
 		System.out.println(rows);
 
 	}
+
 	@Override
 	public void delete(int id) {
 		String sql = "DELETE FROM ISSUES WHERE ID=?";
@@ -100,30 +99,24 @@ public class IssueDAO implements Dao<Issue> {
 		});
 
 	}
-	
+
 	public List<Issue> findempTickets(int empId) {
-		String sql = " SELECT * FROM SOLUTIONS ";
-		//Object[] params = { empId };
-		return jdbcTemplate.query(sql,(rs, rowNo) ->{
+		String sql = "SELECT ISSUES.ID,SUBJECT,DESCRIPTION,STATUS,PRIORITY FROM ISSUES , SOLUTIONS WHERE ISSUES.ID=SOLUTIONS.ISSUE_ID AND  SOLUTIONS.EMPLOYEE_ID=?";
+		Object[] params = { empId };
+		return jdbcTemplate.query(sql, params, (rs, rowNo) -> {
 			Issue issue = new Issue();
 
-
+			issue.setId(rs.getInt("ID"));
 			issue.setSubject(rs.getString("SUBJECT"));
 			issue.setDescription(rs.getString("DESCRIPTION"));
 			issue.setStatus(rs.getString("STATUS"));
 			issue.setPriority(rs.getString("PRIORITY"));
-			Employee employee =new Employee();
-			employee.setId(rs.getInt("EMPLOYEE_ID"));
-			Solution solution=new Solution();
-			solution.setEmployeeId(employee);
+
 			return issue;
 
 		});
 
 	}
-	
-	
-
 
 	@Override
 	public Issue findOne(int id) {
@@ -156,8 +149,6 @@ public class IssueDAO implements Dao<Issue> {
 		});
 
 	}
-	
-
 
 	private Issue convert(ResultSet rs) throws SQLException {
 		Issue issue = new Issue();
