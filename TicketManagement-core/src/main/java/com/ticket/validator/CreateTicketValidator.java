@@ -42,4 +42,19 @@ public class CreateTicketValidator {
 		validator.isInvalid(password, "PASSWORD");
 		
 	}
+	public void assignEmployee(String emailId, String password, int issueId, int employeeId) throws ValidatorException{
+		
+		validator.isInvalid(emailId, "EMAIL");
+		validator.isInvalid(password, "PASSWORD");
+		validator.isInvalid(issueId, "ISSUE_ID");
+		validator.isInvalid(employeeId, "EMPLOYEE_ID");
+	}
+	
+	public void ticketSolution(String emailId, String password, int issueId, String ticketSolution) throws ValidatorException{
+		
+		validator.isInvalid(emailId, "EMAIL");
+		validator.isInvalid(password, "PASSWORD");
+		validator.isInvalid(issueId, "ISSUE_ID");
+		validator.isInvalid(ticketSolution, "SOLUTION");
+	}
 }

@@ -8,6 +8,11 @@ import com.ticket.model.User;
 
 public class TestCreateTicketService {
 
+	/**
+	 * @param args
+	 * @throws ServiceException
+	 * @throws PersistenceException
+	 */
 	public static void main(String[] args) throws ServiceException, PersistenceException {
 
 		CreateTicketService cts=new CreateTicketService();
@@ -17,18 +22,18 @@ public class TestCreateTicketService {
 		//int userId=user.getId();
 		user.setName("Rahul");
 		user.setEmailId("rahul@gmail.com");
-		user.setPassword("abc113");
+		user.setPassword("abc123");
 		
 		Issue issue=new Issue();
 		issue.setId(7);
 		int issueId=issue.getId();
 		
 		String subject="Login Failure";
-		String description="I could not login on my computer";
+		String description="I could not login on fb platform";
 		String department="HR";
 		String priority="High";
 		
-		cts.registration(user.getName(), user.getEmailId(),user.getPassword());
+		//cts.registration(user.getName(), user.getEmailId(),user.getPassword());
 		//cts.createTicket(user.getEmailId(),user.getPassword(), subject, description, department, priority);
 		//cts.updateTicket(user.getEmailId(),user.getPassword(), issueId, description);
 		//cts.updateClose(user.getEmailId(),user.getPassword(),issueId);

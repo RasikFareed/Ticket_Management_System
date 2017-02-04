@@ -1,42 +1,66 @@
 package com.ticket.dao;
 
+import java.util.Iterator;
+import java.util.List;
+
 import com.ticket.exception.PersistenceException;
+import com.ticket.exception.ServiceException;
+import com.ticket.model.Employee;
 import com.ticket.model.Issue;
+import com.ticket.model.Solution;
 import com.ticket.model.User;
 
 public class TestCreateTicketDAO {
 
-	public static void main(String[] args) throws PersistenceException {
+	public static void main(String[] args) throws  ServiceException, PersistenceException {
 
 		CreateTicketDAO createTicket=new CreateTicketDAO();
 		User user=new User();
 		user.setId(3);
 		int userId=user.getId();
 		user.setEmailId("rasik@gmail.com");
-		user.setPassword("abc123");
+		user.setPassword("abc13");
 		
 		Issue issue=new Issue();
-		issue.setId(7);
+		issue.setId(12);
 		int issueId=issue.getId();
 		
-		String subject="Login Failure";
-		String description="I could not login on my computer";
-		String department="HR";
+		String subject="Finance Failure";
+		String description="I could not find my money in bank";
+		String department="Finance";
 		String priority="High";
 		//createTicket.createTicket(user.getEmailId(),user.getPassword(), subject, description, department, priority);
 		//createTicket.updateTicket(user.getEmailId(),user.getPassword(), issueId, description);
 		//createTicket.updateClose(user.getEmailId(),user.getPassword(),issueId);
-		createTicket.findUserDetails(user.getEmailId(),user.getPassword());
+	//createTicket.findUserDetails(user.getEmailId(),user.getPassword());
 		
-/*		IssueDAO issueDao=new IssueDAO();
-		
-		List<Issue> list = issueDao.findUserDetails(userId);
+		Employee employee=new Employee();
+		employee.setId(2);
+		employee.setEmailId("xyz@gmail.com");
+		employee.setPassword("abc321");
+		Solution solution=new Solution();
+		SolutionDAO solDao=new SolutionDAO();
+		solution.setResolutionDescription("Check you internet connection");
+		//createTicket.assignEmployee(employee.getEmailId(), employee.getPassword(), issueId, employee.getId());
+		//createTicket.ticketSolution(employee.getEmailId(), employee.getPassword(), issueId, solution.getResolutionDescription());
+/*IssueDAO issueDao=new IssueDAO();
+		//issueDao.findempTickets(employee);
+		List<Issue> list = issueDao.findempTickets(2);
 		Iterator<Issue> i = list.iterator();
 		while (i.hasNext()) {
 			Issue issues = (Issue) i.next();
 			System.out.println(issues.getId()+ "\t" +issues.getSubject() + "\t"
-					+ issues.getDescription() + "\t" +issues.getDateReported()+"\t"+ "\t" +issues.getDateResolved()+issues.getStatus());
+					+ issues.getDescription() +"\t"+issues.getStatus());
 		}*/
+
+		//issueDao.findempTickets(employee);
+		List<Solution> list = solDao.findAll();
+		Iterator<Solution> i = list.iterator();
+		while (i.hasNext()) {
+			Solution sol = (Solution) i.next();
+			System.out.println(sol.getId()+ "\t" +sol.getIssueId().getId() + "\t"
+					+ sol.getEmployeeId().getId() +"\t"+sol.getResolutionDescription());
+		}
 	}
 
 }

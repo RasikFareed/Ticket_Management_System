@@ -15,8 +15,8 @@ public class SolutionDAO implements Dao<Solution>{
 	private JdbcTemplate jdbcTemplate=ConnectionUtil.getJdbcTemplate();
 	@Override
 	public void save(Solution solution) {
-	String sql = "INSERT INTO SOLUTIONS(ISSUE_ID,EMPLOYEE_ID,RESOLUTION_DESCRIPTION)(?,?,?)";
-	Object[] params = {solution.getIssueId(),solution.getEmployeeId(),solution.getResolutionDescription()};
+	String sql = "INSERT INTO SOLUTIONS(ISSUE_ID,EMPLOYEE_ID)VALUES(?,?)";
+	Object[] params = {solution.getIssueId().getId(),solution.getEmployeeId().getId()};
 	int rows = jdbcTemplate.update(sql, params);
 	System.out.println(rows);
 }
@@ -28,6 +28,23 @@ public void update(Solution solution) {
 	System.out.println(rows);
 
 }
+	
+	public void updateEmployeeId(Solution solution) {
+		String sql = "UPDATE SOLUTIONS SET EMPLOYEE_ID=? WHERE ISSUE_ID=?";
+		Object[] params = {solution.getEmployeeId().getId(),solution.getIssueId().getId()};
+		int rows = jdbcTemplate.update(sql, params);
+		System.out.println(rows);
+
+	}
+	
+	public void updateSolution(Solution solution) {
+		String sql = "UPDATE SOLUTIONS SET RESOLUTION_DESCRIPTION=? WHERE ISSUE_ID=?";
+		Object[] params = {solution.getResolutionDescription(),solution.getIssueId().getId()};
+		int rows = jdbcTemplate.update(sql, params);
+		System.out.println(rows);
+
+	}
+	
 	@Override
 public void delete(int id) {
 	String sql = "DELETE FROM SOLUTIONS WHERE ID=?";
@@ -39,7 +56,7 @@ public void delete(int id) {
 	
 @Override
 public List<Solution> findAll() {
-	String sql = "SELECT ID,ISSUE_ID,EMPLOYEE_ID,RESOLUTION_DESCRIPTION FROM SOLUTIONS";
+	String sql = "SELECT * FROM SOLUTIONS";
 	return jdbcTemplate.query(sql, (rs, rowNo) -> convert(rs));
 
 }
@@ -67,6 +84,28 @@ private Solution convert(ResultSet rs) throws SQLException {
 	solution.setResolutionDescription(rs.getString("RESOLUTION_DESCRIPTION"));
 	
 	return solution;
+}
+
+
+public List<Solution> findempTickets() {
+	String sql = " SELECT SUBJECT,DESCRIPTION,STATUS,PRIORITY FROM ISSUES , SOLUTIONS WHERE ISSUES.ID=SOLUTIONS.ISSUE_ID AND  SOLUTIONS.EMPLOYEE_ID=2";
+	return jdbcTemplate.query(sql,(rs, rowNo) ->{
+		Issue issue = new Issue();
+		Solution solution = new Solution();
+
+		issue.setSubject(rs.getString("SUBJECT"));
+		issue.setDescription(rs.getString("DESCRIPTION"));
+		issue.setStatus(rs.getString("STATUS"));
+		issue.setPriority(rs.getString("PRIORITY"));
+		
+		Employee employee=new Employee();
+		employee.setId(rs.getInt("EMPLOYEE_ID"));
+		solution.setEmployeeId(employee);
+		
+		return solution;
+
+	});
+
 }
 
 

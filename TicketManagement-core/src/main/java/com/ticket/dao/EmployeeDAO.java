@@ -4,8 +4,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import com.ticket.exception.PersistenceException;
 import com.ticket.model.Department;
 import com.ticket.model.Employee;
 import com.ticket.model.Role;
@@ -50,6 +52,67 @@ public class EmployeeDAO implements Dao<Employee> {
 		String sql = "SELECT ID,DEPARTMENT_ID,ROLE_ID,NAME,EMAIL,ACTIVE FROM EMPLOYEES WHERE ID = ?";
 		Object[] params = { id };
 		return jdbcTemplate.queryForObject(sql, params, (rs, rowNo) -> convert(rs));
+
+	}
+	
+	public Employee findOne(String emailId,String password) throws PersistenceException {
+	
+	try{
+		String sql = "SELECT ID FROM EMPLOYEES WHERE EMAIL_ID = ? AND PASSWORD=? AND ACTIVE=1";
+		Object[] params = { emailId,password };
+		return jdbcTemplate.queryForObject(sql, params, (rs, rowNo) ->{
+			Employee employee=new Employee();
+			employee.setId(rs.getInt("ID"));
+			return employee;
+		
+		});
+		
+	}
+	catch(EmptyResultDataAccessException e){
+		throw new PersistenceException("Wrong Email id or Password",e);
+	}
+	}
+	
+	public Employee findEmployeeId(int departmentId,int roleId) {
+		String sql = "SELECT ID FROM EMPLOYEES WHERE DEPARTMENT_ID = ? AND ROLE_ID=? AND ACTIVE=1";
+		Object[] params = { departmentId,roleId};
+		return jdbcTemplate.queryForObject(sql, params, (rs, rowNo) -> {
+			Employee employee=new Employee();
+			employee.setId(rs.getInt("ID"));
+			return employee;
+		
+		});
+
+
+	}
+
+	
+	public Employee findEmployeeDepartmentId(String emailId,String password) {
+		String sql = "SELECT DEPARTMENT_ID FROM EMPLOYEES WHERE EMAIL_ID = ? AND PASSWORD=? AND ACTIVE=1";
+		Object[] params = {emailId,password};
+		return jdbcTemplate.queryForObject(sql, params, (rs, rowNo) -> {
+			Employee employee=new Employee();
+			Department department=new Department();
+			department.setId(rs.getInt("DEPARTMENT_ID"));
+			employee.setDepartmentId(department);
+			return employee;
+		
+		});
+
+
+	}
+	public Employee findDepartmentId(int employeeId) {
+		String sql = "SELECT DEPARTMENT_ID FROM EMPLOYEES WHERE ID = ? AND ACTIVE=1";
+		Object[] params = {employeeId};
+		return jdbcTemplate.queryForObject(sql, params, (rs, rowNo) -> {
+			Employee employee=new Employee();
+			Department department=new Department();
+			department.setId(rs.getInt("DEPARTMENT_ID"));
+			employee.setDepartmentId(department);
+			return employee;
+		
+		});
+
 
 	}
 

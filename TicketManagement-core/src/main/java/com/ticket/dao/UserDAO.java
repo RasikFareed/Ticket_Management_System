@@ -59,19 +59,19 @@ public User findOne(int id) {
 
 }
 
-public User findOne(String emailId) throws PersistenceException {
+public User findOne(String emailId,String password) throws PersistenceException {
 	try{
-	String sql = "SELECT PASSWORD FROM USERS WHERE EMAIL_ID = ?";
-	Object[] params = { emailId };
+	String sql = "SELECT ID FROM USERS WHERE EMAIL_ID = ? AND PASSWORD=?";
+	Object[] params = { emailId,password };
 	return jdbcTemplate.queryForObject(sql, params, (rs, rowNo) -> {
 		User user=new User();
-		user.setPassword(rs.getString("PASSWORD"));
+		user.setId(rs.getInt("ID"));
 		return user;
 	
 	});
 	}
 	catch(EmptyResultDataAccessException e){
-		throw new PersistenceException("Wrong Email id",e);
+		throw new PersistenceException("Wrong Email id or Password",e);
 	}
 }
 
