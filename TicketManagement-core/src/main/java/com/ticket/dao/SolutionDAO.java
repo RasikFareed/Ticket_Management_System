@@ -53,6 +53,20 @@ public void delete(int issueId) {
 	System.out.println(rows);
 
 }
+
+	public Solution findEmployeeId(int issueId) {
+		String sql = "SELECT EMPLOYEE_ID FROM SOLUTIONS WHERE ISSUE_ID = ?";
+		Object[] params = { issueId };
+		return jdbcTemplate.queryForObject(sql, params, (rs, rowNo) -> {
+			Solution solution = new Solution();
+			
+			Employee employee=new Employee();
+			employee.setId(rs.getInt("EMPLOYEE_ID"));
+			solution.setEmployeeId(employee);
+				
+			return solution;
+		});
+	}
 	
 @Override
 public List<Solution> findAll() {

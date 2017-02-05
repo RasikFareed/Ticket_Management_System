@@ -19,7 +19,7 @@ public class TestCreateTicketDAO {
 		user.setId(3);
 		int userId=user.getId();
 		user.setEmailId("rasik@gmail.com");
-		user.setPassword("abc13");
+		user.setPassword("abc123");
 		
 		Issue issue=new Issue();
 		issue.setId(12);

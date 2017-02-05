@@ -136,7 +136,7 @@ public class CreateTicketDAO {
 		LoginDAO loginDao = new LoginDAO();
 		try {
 			if (loginDao.login(emailId, password)) {
-
+				
 				User user = new User();
 				UserDAO userDao = new UserDAO();
 
@@ -199,8 +199,17 @@ public class CreateTicketDAO {
 		LoginDAO loginDao = new LoginDAO();
 		try {
 			if (loginDao.employeeLogin(emailId, password)) {
+				Employee employee=new Employee();
+				employee.setEmailId(emailId);
+				employee.setPassword(password);
+				EmployeeDAO employeeDao = new EmployeeDAO();
+
 				Solution solution = new Solution();
 				SolutionDAO solutionDao = new SolutionDAO();
+
+				if(employeeDao.findOne(emailId, password).getId()==solutionDao.findEmployeeId(issueId).getEmployeeId().getId()){
+		
+				
 				issue.setId(issueId);
 				solution.setIssueId(issue);
 				solution.setResolutionDescription(ticketSolution);
@@ -208,6 +217,10 @@ public class CreateTicketDAO {
 				solutionDao.updateSolution(solution);
 
 				issueDao.updateSolutionStatus(issue);
+				}
+				else{
+					System.out.println("You are not assigned to this issue");
+				}
 			}
 		} catch (PersistenceException e) {
 			throw new PersistenceException("Login Failed", e);

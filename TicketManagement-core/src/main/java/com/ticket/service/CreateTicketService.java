@@ -96,7 +96,7 @@ public class CreateTicketService {
 			createTicketValidator.findEmployeeTickets(emailId,password);
 			createTicketDao.findEmployeeTickets(emailId,password);
 		} catch (ValidatorException | PersistenceException e) {
-			throw new ServiceException("Cannot Create Ticket Solution", e);
+			throw new ServiceException("Cannot View Tickets", e);
 
 		}
 		

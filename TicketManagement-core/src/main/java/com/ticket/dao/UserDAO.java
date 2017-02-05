@@ -61,7 +61,7 @@ public User findOne(int id) {
 
 public User findOne(String emailId,String password) throws PersistenceException {
 	try{
-	String sql = "SELECT ID FROM USERS WHERE EMAIL_ID = ? AND PASSWORD=?";
+	String sql = "SELECT ID FROM USERS WHERE EMAIL_ID=? AND PASSWORD=?";
 	Object[] params = { emailId,password };
 	return jdbcTemplate.queryForObject(sql, params, (rs, rowNo) -> {
 		User user=new User();
